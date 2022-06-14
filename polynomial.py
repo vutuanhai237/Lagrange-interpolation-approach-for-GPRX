@@ -1,5 +1,3 @@
-import numpy as np
-
 class Polymonial():
     def __init__(self, coeffs: list):
         self.coeff = coeffs
