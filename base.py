@@ -1,5 +1,25 @@
-import polynomial
-import numpy as np
+import polynomial, constant
+import numpy as np, qiskit 
+
+def measure(qc: qiskit.QuantumCircuit, qubits, cbits=[]):
+    """Measuring the quantu circuit which fully measurement gates
+    Args:
+        - qc (QuantumCircuit): Measured circuit
+        - qubits (np.ndarray): List of measured qubit
+    Returns:
+        - float: Frequency of 00.. cbit
+    """
+    n = len(qubits)
+    if cbits == []:
+        cbits = qubits.copy()
+    for i in range(0, n):
+        qc.measure(qubits[i], cbits[i])
+   
+    counts = qiskit.execute(
+        qc, backend=constant.backend,
+        shots=constant.num_shots).result().get_counts()
+
+    return counts.get("0" * len(qubits), 0) / constant.num_shots
 
 def upper_matrix(M):
     """Example:
