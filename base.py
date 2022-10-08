@@ -70,5 +70,13 @@ def calculate_Lambda_matrix(lambdas: np.ndarray, x: float):
             M[i, j] = np.conjugate(Lambdas[i]) * Lambdas[j]
     return M
 
+def calculate_Tau_matrix(B, G, n):
+    Tau = np.zeros([n, n], dtype = np.complex128)
+    for i in range(0, n):
+        for j in range(0, n):
+            Tau[i, j] = np.linalg.matrix_power(G, i) @ B @ np.linalg.matrix_power(G, j)
+    return Tau
+
+
 def check_symmetric(matrix, rtol=1e-05, atol=1e-08):
     return np.allclose(matrix, np.conjugate(matrix.T), rtol=rtol, atol=atol)
