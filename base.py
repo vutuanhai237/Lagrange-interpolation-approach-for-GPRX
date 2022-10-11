@@ -6,6 +6,7 @@ def measure(qc: qiskit.QuantumCircuit, qubits, cbits=[]):
     Args:
         - qc (QuantumCircuit): Measured circuit
         - qubits (np.ndarray): List of measured qubit
+    
     Returns:
         - float: Frequency of 00.. cbit
     """
