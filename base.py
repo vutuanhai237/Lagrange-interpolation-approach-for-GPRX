@@ -154,3 +154,28 @@ def second_derivative_4psr(f, thetas, i, j):
                                + f(thetas - alpha2*unit_vector(i, length) - alpha2*unit_vector(j, length)))
 
     return (-1j/2)**2*(k1A + k1B + k2A + k2B + k3A + k3B + k4A + k4B)
+
+
+def two_prx(f, thetas, j, step_size):
+    length = thetas.shape[0]
+
+    return 1 / (2*np.sin(step_size)) * (
+        f(thetas + step_size * unit_vector(j, length)) -
+        f(thetas - step_size * unit_vector(j, length))
+    )
+    
+def four_prx(f, thetas, j, step_size):
+    length = thetas.shape[0]
+
+    return - (constant.four_term_psr['d_plus'] * (
+        f(thetas + step_size * unit_vector(j, length)) -
+        f(thetas - step_size * unit_vector(j, length))
+        - constant.four_term_psr['d_minus'] * (
+            f(thetas + step_size * unit_vector(j, length)) - 
+            f(thetas - step_size * unit_vector(j, length))
+        )
+    ))
+
+def finite_diff (f, thetas, j, step_size):
+    length = thetas.shape[0]
+    return (1 / (2*step_size))*(f(thetas + step_size * unit_vector(j, length)) - f(thetas - step_size * base.unit_vector(j, length)))
