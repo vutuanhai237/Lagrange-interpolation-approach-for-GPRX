@@ -162,7 +162,8 @@ def two_prx(f, thetas, j):
         f(thetas + constant.two_term_psr['s'] * unit_vector(j, length)) -
         f(thetas - constant.two_term_psr['s'] * unit_vector(j, length))
     )
-    
+
+
 def four_prx(f, thetas, j):
     length = thetas.shape[0]
 
@@ -170,14 +171,26 @@ def four_prx(f, thetas, j):
         f(thetas + constant.four_term_psr['alpha'] * unit_vector(j, length)) -
         f(thetas - constant.four_term_psr['alpha'] * unit_vector(j, length))
         - constant.four_term_psr['d_minus'] * (
-            f(thetas + constant.four_term_psr['beta'] * unit_vector(j, length)) - 
+            f(thetas + constant.four_term_psr['beta'] * unit_vector(j, length)) -
             f(thetas - constant.four_term_psr['beta'] * unit_vector(j, length))
         )
     ))
 
-def two_finite_diff (f, thetas, j, step_size):
+
+def two_finite_diff(f, thetas, j, step_size):
     length = thetas.shape[0]
-    return (1 / (2*step_size))*(f(thetas + step_size * unit_vector(j, length)) - f(thetas - step_size * unit_vector(j, length)))
+    return (1 / (2*step_size))*(
+        f(thetas + step_size * unit_vector(j, length)) -
+        f(thetas - step_size * unit_vector(j, length)))
+
+def true_grad(thetas):
+    # derivate_x = -1/2*np.sin(thetas[0])*(1 + np.cos(thetas[1]))
+    # derivate_y = 1/2*(1-np.cos(thetas[0]))*np.sin(thetas[1])
+    # derivate_z = 0
+    derivate_x = -(np.sin(thetas[1]/2)**2)*np.sin(thetas[0])
+    derivate_y = (np.sin(thetas[0]/2)**2)*np.sin(thetas[1])
+    derivate_z = 0
+    return np.asarray([derivate_x, derivate_y, derivate_z])
 
 def four_finite_diff(f, thetas, j, step_size):
     length = thetas.shape[0]
@@ -186,7 +199,7 @@ def four_finite_diff(f, thetas, j, step_size):
         f(thetas + step_size * unit_vector(j, length)) -
         f(thetas - step_size * unit_vector(j, length))
         - constant.four_term_psr['d_minus'] * (
-            f(thetas + step_size * unit_vector(j, length)) - 
+            f(thetas + step_size * unit_vector(j, length)) -
             f(thetas - step_size * unit_vector(j, length))
         )
     ))
