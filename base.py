@@ -156,13 +156,19 @@ def second_derivative_4psr(f, thetas, i, j):
     return (-1j/2)**2*(k1A + k1B + k2A + k2B + k3A + k3B + k4A + k4B)
 
 
-def two_prx(f, thetas, j):
-    length = thetas.shape[0]
-    return constant.two_term_psr['r'] * (
-        f(thetas + constant.two_term_psr['s'] * unit_vector(j, length)) -
-        f(thetas - constant.two_term_psr['s'] * unit_vector(j, length))
-    )
+# def two_prx(f, thetas, j):
+#     length = thetas.shape[0]
+#     return constant.two_term_psr['r'] * (
+#         f(thetas + constant.two_term_psr['s'] * unit_vector(j, length)) -
+#         f(thetas - constant.two_term_psr['s'] * unit_vector(j, length))
+#     )
 
+def pseudo_two_prx(f, thetas, j, step_size):
+    length = thetas.shape[0]
+    return (1/(2*np.sin(step_size))) * (
+        f(thetas + step_size * unit_vector(j, length)) -
+        f(thetas - step_size * unit_vector(j, length))
+    )
 
 def four_prx(f, thetas, j):
     length = thetas.shape[0]
@@ -192,7 +198,7 @@ def true_grad(thetas):
     derivate_z = 0
     return np.asarray([derivate_x, derivate_y, derivate_z])
 
-def four_finite_diff(f, thetas, j, step_size):
+def pseudo_four_prx(f, thetas, j, step_size):
     length = thetas.shape[0]
 
     return - (constant.four_term_psr['d_plus'] * (
