@@ -2,7 +2,7 @@ import qiskit
 import numpy as np
 # Training hyperparameter
 num_shots = 10000
-backend = qiskit.Aer.get_backend('qasm_simulator')
+backend = qiskit.Aer.get_backend('aer_simulator')
 
 # For parameter-shift rule
 two_term_psr = {
@@ -12,7 +12,7 @@ two_term_psr = {
 
 four_term_psr = {
     'alpha': np.pi / 2,
-    'beta' : 3 * np.pi / 2,
-    'd_plus' : (np.sqrt(2) + 1) / (4*np.sqrt(2)),
-    'd_minus': (np.sqrt(2) - 1) / (4*np.sqrt(2))
+    'beta' : np.pi,
+    'd_plus' : 1j,
+    'd_minus': 1j*(1-np.sqrt(2))/2
 }
