@@ -3,6 +3,13 @@ import constant
 import numpy as np
 import qiskit
 
+def zz_measure(qc: qiskit.QuantumCircuit):
+    _00 = np.asarray([1, 0, 0, 0])
+    _01 = np.asarray([0, 1, 0, 0])
+    _10 = np.asarray([0, 0, 1, 0])
+    _11 = np.asarray([0, 0, 0, 1])
+    psi = qiskit.quantum_info.Statevector(qc)
+    return np.abs(np.inner(_00, psi))**2 - np.abs(np.inner(_01, psi))**2 - np.abs(np.inner(_10, psi))**2 + np.abs(np.inner(_11, psi))**2
 
 def measure(qc: qiskit.QuantumCircuit, qubits, cbits=[]):
     """Measuring the quantu circuit which fully measurement gates
@@ -173,6 +180,12 @@ def second_derivative_4psr(f, thetas, i, j):
 
 def pseudo_two_prx(f, thetas, j, step_size):
     length = thetas.shape[0]
+    print("F1", f(thetas + step_size * unit_vector(j, length)- f(thetas - step_size * unit_vector(j, length))))
+    print("F1k", (1/(2*np.sin(step_size))) * (
+        f(thetas + step_size * unit_vector(j, length)) -
+        f(thetas - step_size * unit_vector(j, length))
+    ))
+    
     return (1/(2*np.sin(step_size))) * (
         f(thetas + step_size * unit_vector(j, length)) -
         f(thetas - step_size * unit_vector(j, length))
