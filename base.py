@@ -132,6 +132,18 @@ def create_log_step_sizes(low, high, size):
         size = size * 1.01
     return steps
 
+def create_logsin_step_sizes(low, high, size):
+    steps = []
+    step = low
+    while (step < high):
+        if step < 0.1:
+            steps.append(np.sin(step))
+        else:
+            steps.append((step))
+        step = step + size
+        size = size * 1.01
+    return np.round(steps, 2)
+
 def second_derivative_2psr(f, thetas, i, j, alpha=np.pi/3):
     length = thetas.shape[0]
     k1 = f(thetas + alpha*(unit_vector(i, length) + unit_vector(j, length)))
@@ -222,15 +234,19 @@ def two_finite_diff(f, thetas, j, step_size):
         f(thetas - step_size * unit_vector(j, length)))
 
 def true_grad(thetas):
-    # derivate_x = -1/2*np.sin(thetas[0])*(1 + np.cos(thetas[1]))
-    # derivate_y = 1/2*(1-np.cos(thetas[0]))*np.sin(thetas[1])
-    # derivate_z = 0
+    """
+        df value in fig 2. paper
+    """
     derivate_x = -(np.cos(thetas[1]/2)**2)*np.sin(thetas[0])
     derivate_y = (np.sin(thetas[0]/2)**2)*np.sin(thetas[1])
     derivate_z = 0
     return np.asarray([derivate_x, derivate_y, derivate_z])
 
 def f_analytic(thetas):
+    """
+        f value in fig 2. paper
+    """
+
     return 1/2*(1 + np.cos(thetas[0]) + (-1 + np.cos(thetas[0])*np.cos(thetas[2])))
 
 def pseudo_four_prx(f, thetas, j):

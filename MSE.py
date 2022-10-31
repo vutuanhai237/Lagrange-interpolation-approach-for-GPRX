@@ -6,7 +6,7 @@ import importlib
 importlib.reload(constant)
 importlib.reload(base)
 
-step_sizes = base.create_log_step_sizes(0.01, 3, 0.01)
+step_sizes = base.create_logsin_step_sizes(0.01, 3, 0.01)
 thetas = np.asarray([np.pi/2, np.pi/3, np.pi/6])
 def u(qc, thetas):
     qc.rx(thetas[0], 0)
