@@ -5,9 +5,17 @@ from matplotlib import pyplot as plt
 import torch
 import numpy as np
 
+n = 5
+loss_dict = {}
+lambdax = 0.05
+hs = [-0.1, 0, 0.1]
 
-def cost_function(theta):
-    qc = tqix.circuit(n)
+def H_LMG(h, lambdax, n, Jx, Jy, Jz):
+    return -2*h*Jz - 2*lambdax/n*(Jx**2 - Jy**2)
+
+
+def cost_function(thetas):
+    qc = circuit(n)
     for i in range(0, n, 3):
         qc.RX(thetas[i], 0)
         qc.RZ(thetas[i + 1], 1)
@@ -22,8 +30,7 @@ def cost_function(theta):
     return np.real(np.trace((h_LMG @ psi).toarray()))
 
 
-n = 5
-loss_dict = {}
+
 # function to optimize circuit of sparse array
 
 
