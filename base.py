@@ -189,15 +189,19 @@ def second_derivative_4psr(f, thetas, i, j):
 #         f(thetas + constant.two_term_psr['s'] * unit_vector(j, length)) -
 #         f(thetas - constant.two_term_psr['s'] * unit_vector(j, length))
 #     )
+def two_prx(f, thetas):
+    length = thetas.shape[0]
+    grad = np.zeros(length)
+    for i in range(0, length):
+        grad[i] = constant.two_term_psr["r"] * (
+        f(thetas + constant.two_term_psr["s"] * unit_vector(i, length)) -
+        f(thetas - constant.two_term_psr["s"] * unit_vector(i, length))
+    )
+
+    return grad
 
 def pseudo_two_prx(f, thetas, j, step_size):
     length = thetas.shape[0]
-    print("F1", f(thetas + step_size * unit_vector(j, length)- f(thetas - step_size * unit_vector(j, length))))
-    print("F1k", (1/(2*np.sin(step_size))) * (
-        f(thetas + step_size * unit_vector(j, length)) -
-        f(thetas - step_size * unit_vector(j, length))
-    ))
-    
     return (1/(2*np.sin(step_size))) * (
         f(thetas + step_size * unit_vector(j, length)) -
         f(thetas - step_size * unit_vector(j, length))
