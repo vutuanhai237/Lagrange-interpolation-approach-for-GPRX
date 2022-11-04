@@ -2,7 +2,7 @@ import qiskit
 import numpy as np
 # Training hyperparameter
 num_shots = 10000
-learning_rate = 0.1
+learning_rate = 0.4
 backend = qiskit.Aer.get_backend('aer_simulator')
 
 # For parameter-shift rule
