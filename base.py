@@ -195,13 +195,13 @@ def second_derivative_4psr(f, thetas, i, j):
 def two_prx_hLMG(f, thetas, h):
     lambdas = [-5/2, -3/2, -1/2, 1/2, 3/2, 5/2]
     length = thetas.shape[0]
-    alphas, d = lagrange_psr(lambdas)
+    alphas, d = lagrange_psr.lagrange_psr(lambdas)
     grad = np.zeros(length, dtype = np.complex128)
     for i in range(0, length):
         for j in range(0, len(d)):
             grad[i] += d[j] * (
-                f(thetas + alphas[j]* base.unit_vector(i, length), h) -
-                f(thetas - alphas[j]* base.unit_vector(i, length), h)
+                f(thetas + alphas[j]* unit_vector(i, length), h) -
+                f(thetas - alphas[j]* unit_vector(i, length), h)
             )
     return np.real((-1j/2)*grad)
 
