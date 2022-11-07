@@ -1,0 +1,61 @@
+
+import numpy as np
+import base
+from scipy.linalg import null_space
+
+
+def solve_linear_equation(T):
+    """_summary_
+
+    Args:
+        T (_type_): _description_
+    """
+    init_rcond = 1
+    t = 0
+    while t != 1000:
+        d = (null_space(T, rcond = init_rcond))
+        t += 1
+        if d.shape[1] != 1:
+            init_rcond /= 10
+        else:
+            return d
+    return []
+def lagrange_psr(lambdas):
+    dim_d = int(len(lambdas)**2/4) - 1 
+    # Find T
+    while(True): 
+        Ts = []
+        deltas = []
+        thetas = []
+        for i in range(0, dim_d):
+            theta = np.random.uniform(0, 2*np.pi)
+            delta = (base.calculate_Lambda_matrix(lambdas, theta) - base.calculate_Lambda_matrix(lambdas, -theta))
+            thetas.append(theta)
+            deltas.append(delta)
+            Ts.append(base.upper_matrix(delta))
+        T = Ts[0]
+        for i in range(1, len(Ts)):
+            T = np.hstack((T, Ts[i]))
+        # Find d, if long, random thetas again
+
+        d = solve_linear_equation(T)
+        if len(d) > 0:
+            break
+
+    for i in range(0, len(Ts)):
+        if np.abs((T @ d)[0])[0] > 10**(-10):
+            return False
+    
+    # Get normalized scalar
+    sumMatrix = d[0] * deltas[0]
+    for i in range(1, len(Ts)):
+        sumMatrix += d[i] * deltas[i]
+    # sumMatrix = (np.round(sumMatrix, 3))
+
+    # Normalize d
+    d /= sumMatrix[0][1]
+    return thetas, d
+
+
+
+
