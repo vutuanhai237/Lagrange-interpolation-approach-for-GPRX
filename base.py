@@ -193,7 +193,7 @@ def second_derivative_4psr(f, thetas, i, j):
 
 
 def two_prx_hLMG(f, thetas, h):
-    lambdas = [-5/2, -3/2, -1/2, 1/2, 3/2, 5/2]
+    lambdas = [-5, -3, -1, 1, 3, 5]
     length = thetas.shape[0]
     alphas, d = lagrange_psr.lagrange_psr(lambdas)
     grad = np.zeros(length, dtype = np.complex128)
