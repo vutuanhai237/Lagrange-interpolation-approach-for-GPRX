@@ -29,7 +29,7 @@ def optimal(h):
     costs = []
     thetass = []
     thetas = np.random.uniform(0, 2*np.pi, n*3)
-    for i in range(0, 10):
+    for i in range(0, 30):
         print("Iteration: ", i)
         thetass.append(thetas)
         print(thetas)
@@ -40,7 +40,7 @@ def optimal(h):
     np.savetxt("cost_" + str(h) + ".txt", costs)
     np.savetxt("thetas_" + str(h) + ".txt", thetass)
 
-hs = np.round(np.arange(-0.1, 0.1, 0.006), 3)
+hs = np.round(np.arange(0, 0.1006, 0.006), 3)
 costs = []
 for h in hs:
     print(h)
