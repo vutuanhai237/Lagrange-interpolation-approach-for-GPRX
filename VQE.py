@@ -36,7 +36,7 @@ def optimal(h):
     costs = []
     thetass = []
     thetas = np.random.uniform(0, 2*np.pi, n*3)
-    for i in range(0, 10):
+    for i in range(0, 30):
         print("Iteration: ", i)
         thetass.append(thetas)
         thetas = thetas - constant.learning_rate*base.two_prx_hLMG(cost_function, thetas, h)
