@@ -10,9 +10,10 @@ def H_LMG(h, lambdax, n, Jx, Jy, Jz):
 def cost_function_noise(thetas, h):
     qc = tqix.circuit(n)
     for i in range(0, n):
-        qc.RX(thetas[i], i)
-        qc.RZ(thetas[i + n], i)
-        qc.RX(thetas[i + 2 * n], i)
+        noises = np.random.uniform(0, 1, 3)
+        qc.RX(thetas[i], noises[0])
+        qc.RZ(thetas[i + n], noises[1])
+        qc.RX(thetas[i + 2 * n], noises[2])
     Jx = qc.Jx()
     Jy = qc.Jy()
     Jz = qc.Jz()
@@ -48,13 +49,10 @@ def optimal_noise(h):
     costs = []
     thetass = []
     thetas = np.random.uniform(0, 2*np.pi, n*3)
-    for i in range(0, 10):
+    for i in range(0, 30):
         print("Iteration: ", i)
         thetass.append(thetas)
-        print(thetas)
-
         thetas = thetas - constant.learning_rate*base.two_prx_hLMG(cost_function_noise, thetas, h)
         costs.append(cost_function(thetas, h))
-        print(costs)
     np.savetxt("cost_" + str(h) + ".txt", costs)
     np.savetxt("thetas_" + str(h) + ".txt", thetass)
