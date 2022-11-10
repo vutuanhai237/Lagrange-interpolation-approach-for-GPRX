@@ -1,14 +1,12 @@
-
 import numpy as np
 import base
 from scipy.linalg import null_space
 
-
 def solve_linear_equation(T):
-    """_summary_
+    """Solve the equation T @ d = 0, d <> 0.
 
     Args:
-        T (_type_): _description_
+        T (numpy.ndarray): list of T matrix
     """
     init_rcond = 1
     t = 0
@@ -21,6 +19,14 @@ def solve_linear_equation(T):
             return d
     return []
 def lagrange_psr(lambdas):
+    """Find scalar factors and shift values
+    After that, conduct lagrange parameter-shift rule
+    Args:
+        lambdas (list): list of eigenvalues
+
+    Returns:
+        [numpy.ndarray, numpy.ndarray]: Scalar factors and Shift values
+    """
     dim_d = int(len(lambdas)**2/4) - 1 
     # Find T
     while(True): 
@@ -36,7 +42,6 @@ def lagrange_psr(lambdas):
         T = Ts[0]
         for i in range(1, len(Ts)):
             T = np.hstack((T, Ts[i]))
-        # Find d, if long, random thetas again
 
         d = solve_linear_equation(T)
         if len(d) > 0:
@@ -55,7 +60,3 @@ def lagrange_psr(lambdas):
     # Normalize d
     d /= sumMatrix[0][1]
     return thetas, d
-
-
-
-
