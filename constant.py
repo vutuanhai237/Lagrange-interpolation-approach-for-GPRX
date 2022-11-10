@@ -4,7 +4,7 @@ import numpy as np
 num_shots = 10000
 learning_rate = 0.4
 backend = qiskit.Aer.get_backend('aer_simulator')
-
+lambdas = [-5/2, -3/2, -1/2, 1/2, 3/2, 5/2]
 # For parameter-shift rule
 two_term_psr = {
     'r': 1/2,
